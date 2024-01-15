@@ -19,3 +19,11 @@ export interface Episode {
   url?:        string;
   created?:    string;
 }
+
+export interface Seasons {
+  season1: Episode[];
+  season2: Episode[];
+  season3: Episode[];
+  season4: Episode[];
+  season5: Episode[];
+}
