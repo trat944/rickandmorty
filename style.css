@@ -10,24 +10,26 @@ header {
   padding: 1rem;
   height: fit-content;
   display: flex;
-  justify-content: space-around;
+  justify-content: start;
   align-items: center;
   background-color: #008ba3;
-  flex-wrap: wrap;
+}
+
+.indexTitle {
+  font-family: 'Fredoka One', cursive;
+  font-size: 6rem;
+  font-weight: 900;
+  color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  margin: auto;
 }
 
 .slogan {
   height:250px;
 }
 
-.indexTitle {
-  font-size: 2.5rem;
-  font-family: 'Fredoka One', cursive; /* Fuente llamativa */
-  color: rgb(207, 44, 44);
-  font-weight: 900;
-}
-
-.sidebar, .episodes-container, .characters-container {
+.sidebar, .episodes-container, .characters-container, .character_container {
   margin-top: 3rem;
 }
 
@@ -148,13 +150,49 @@ header {
 
 .characterInfo {
   display: flex;
-  justify-content: space-around;
+  justify-content: start;
+  padding-bottom: 3rem;
+  gap: 4rem;
+  border-bottom: 2px solid gray;
+  margin: 2rem 3rem;
 }
 
 .characterEpisodes {
-  display: flex;
+  display: grid;
   justify-content: space-around;
-  flex-wrap: wrap;
+  grid-template-columns: auto auto auto auto auto auto;
+  gap: 1rem;
+}
+
+.characterEpisodes > span {
+  font-size: 1.3rem;
+  font-family: 'Fredoka One', cursive;
+}
+
+.characterImg {
+  border-radius: 10px; 
+  overflow: hidden; 
+  box-shadow: 0 0 18px #00bcd4;;
+}
+
+.characterName {
+  font-family: 'Fredoka One', cursive; 
+  font-size: 3.5rem;
+  font-weight: 700; 
+  color: #00bcd4; 
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
+  margin-bottom: 20px;
+}
+
+.characterSpecifics {
+  font-size: 1.5rem;
+
+}
+
+.characterOrigin {
+  font-size: 1.8rem;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 ::-webkit-scrollbar {
@@ -182,4 +220,48 @@ header {
   }
 }
 
+@media (max-width: 1200px) {
+  .characterEpisodes {
+    justify-content: space-between;
+    grid-template-columns: auto auto auto auto;
+  }
 
+  .indexTitle {
+  font-size: 4rem;
+  font-weight: 700;
+  }
+}
+
+@media (max-width: 920px) {
+  .infoContainer {
+    display: flex;
+    justify-content: center;
+  }
+
+  .episodeNameClass {
+    text-align: center;
+  }
+
+  header {
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 660px) {
+  .characterEpisodes {
+    grid-template-columns: auto auto auto;
+    margin: 0 0.5rem;
+  }
+
+  .characterInfo {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .characterImg {
+    width: 300px;
+    margin: auto;
+  }
+}

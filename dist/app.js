@@ -54,7 +54,7 @@ const displaySeasons = (seasons) => {
         const seasonNumber = Number(button.classList.value);
         button.addEventListener('click', () => {
             containers.forEach(container => {
-                container.innerHTML = "";
+                cleanDivContainer(container);
             });
             printSeason(seasons, seasonNumber);
         });
@@ -73,7 +73,7 @@ const printSeason = (seasons, seasonNumber) => {
         episodePrinted.addEventListener('click', () => {
             changeContainer(episodeContainer, characterContainer);
             displayEpisodeInfo(episode);
-            charactersContainer.innerHTML = "";
+            cleanDivContainer(charactersContainer);
             fetchCharacters(episode);
         });
         container.appendChild(episodePrinted);
@@ -128,10 +128,13 @@ const fetchCharacter = (characterId) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 const printCharacterInfo = (character) => {
-    const { characterImg, characterName, characterSpecifics, episodesOfCharacter } = myVariables;
+    const { characterImg, characterName, characterSpecifics, episodesOfCharacter, characterOrigin } = myVariables;
     characterImg.src = character.image;
     characterName.textContent = character.name;
-    characterSpecifics.textContent = `${character.species} | ${character.status} | ${character.gender} | ${character.origin.name}`;
+    characterSpecifics.textContent = `${character.species} | ${character.status} | ${character.gender} | `;
+    characterOrigin.textContent = character.origin.name;
+    console.log(character.origin.url);
+    cleanDivContainer(episodesOfCharacter);
     character.episode.forEach(episode => {
         const episodeCharacterAppears = document.createElement('span');
         episodeCharacterAppears.textContent = `Episode ${episode.slice(40)}`;
@@ -141,6 +144,9 @@ const printCharacterInfo = (character) => {
 const changeContainer = (showingContainer, hidingContainer) => {
     hidingContainer.classList.add('hidden');
     showingContainer.classList.remove('hidden');
+};
+const cleanDivContainer = (container) => {
+    container.innerHTML = "";
 };
 fetchData()
     .then(episodes => createSeasons(episodes))

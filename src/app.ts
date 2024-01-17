@@ -47,7 +47,7 @@ const displaySeasons = (seasons: Seasons) : void => {
     const seasonNumber: number = Number(button.classList.value);
     button.addEventListener('click', () => {
       containers.forEach(container => {
-        container.innerHTML = "";
+        cleanDivContainer(container)
       })
       printSeason(seasons, seasonNumber);
     })
@@ -70,7 +70,7 @@ const printSeason = (seasons: Seasons, seasonNumber: number) : void => {
     episodePrinted.addEventListener('click', () => {
       changeContainer(episodeContainer, characterContainer);
       displayEpisodeInfo(episode);
-      charactersContainer.innerHTML = "";
+      cleanDivContainer(charactersContainer);
       fetchCharacters(episode)
     })
     container.appendChild(episodePrinted);
@@ -135,13 +135,15 @@ const fetchCharacter = async (characterId: number): Promise<void> => {
  }
 }
 
-const printCharacterInfo = (character: Characters):void => {
-  const {characterImg, characterName, characterSpecifics, episodesOfCharacter} = myVariables;
 
+const printCharacterInfo = (character: Characters):void => {
+  const {characterImg, characterName, characterSpecifics, episodesOfCharacter, characterOrigin} = myVariables;
   characterImg.src = character.image;
   characterName.textContent = character.name;
-  characterSpecifics.textContent = `${character.species} | ${character.status} | ${character.gender} | ${character.origin.name}`
-
+  characterSpecifics.textContent = `${character.species} | ${character.status} | ${character.gender} | `
+  characterOrigin.textContent = character.origin.name;
+  console.log(character.origin.url)
+  cleanDivContainer(episodesOfCharacter);
   character.episode.forEach(episode => {
     const episodeCharacterAppears = document.createElement('span');
     episodeCharacterAppears.textContent = `Episode ${episode.slice(40)}`;
@@ -153,6 +155,10 @@ const printCharacterInfo = (character: Characters):void => {
 const changeContainer = (showingContainer: HTMLDivElement, hidingContainer: HTMLDivElement): void => {
   hidingContainer.classList.add('hidden');
   showingContainer.classList.remove('hidden');
+}
+
+const cleanDivContainer = (container: HTMLDivElement | Element): void => {
+  container.innerHTML="";
 }
 
 

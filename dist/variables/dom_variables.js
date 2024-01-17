@@ -9,6 +9,7 @@ export const myVariables = {
     characterImg: document.querySelector('#characterImg'),
     characterName: document.querySelector('#characterName'),
     characterSpecifics: document.querySelector('#characterSpecifics'),
-    episodesOfCharacter: document.querySelector('#episodesOfCharacter')
+    episodesOfCharacter: document.querySelector('#episodesOfCharacter'),
+    characterOrigin: document.querySelector('#characterOrigin')
 };
 //# sourceMappingURL=dom_variables.js.map
