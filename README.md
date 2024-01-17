@@ -25,3 +25,7 @@ Or should I fetch episodes and then characters and locations from each episode w
 * Make the seasons button work and display in the main container the episode info.
 
 * Then, fetch the characters of each episode the user clicks. 
+
+**Big problems**
+
+*  The way to get my characters of the episode. Solution: fetch them again(bad solution, but the one I got).

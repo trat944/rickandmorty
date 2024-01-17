@@ -85,7 +85,6 @@ const displayEpisodeInfo = (episode) => {
 };
 const fetchCharacters = (episode) => __awaiter(void 0, void 0, void 0, function* () {
     const charactersURL = episode.characters;
-    console.log(charactersURL);
     charactersURL.forEach(character => {
         fetch(character)
             .then(response => response.json())
@@ -96,7 +95,7 @@ const fetchCharacters = (episode) => __awaiter(void 0, void 0, void 0, function*
 });
 const printCharacters = (character) => {
     const { charactersContainer } = myVariables;
-    const characterCard = `<div class="card characterCard" style="width: 18rem;">
+    const characterCard = `<div class="card characterCard" character-id="${character.id}" style="width: 18rem;">
     <img class="card-img-top" src="https://rickandmortyapi.com/api/character/avatar/${character.id}.jpeg" alt="Card image cap">
     <div class="card-body">
       <h5 class="card-title">${character.name}</h5>
@@ -104,6 +103,43 @@ const printCharacters = (character) => {
     </div>
     </div>`;
     charactersContainer.innerHTML += characterCard;
+    displayCharacterInfo();
+};
+const displayCharacterInfo = () => {
+    const cards = document.querySelectorAll('.characterCard');
+    cards.forEach(card => {
+        card.addEventListener('click', () => {
+            const characterId = Number(card.getAttribute(`character-id`));
+            fetchCharacter(characterId);
+        });
+    });
+};
+const fetchCharacter = (characterId) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield fetch(`https://rickandmortyapi.com/api/character/${characterId}`);
+        const character = yield response.json();
+        changeContainer();
+        printCharacterInfo(character);
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+const changeContainer = () => {
+    const { episodeContainer, characterContainer } = myVariables;
+    episodeContainer.classList.add('hidden');
+    characterContainer.classList.remove('hidden');
+};
+const printCharacterInfo = (character) => {
+    const { characterImg, characterName, characterSpecifics, episodesOfCharacter } = myVariables;
+    characterImg.src = character.image;
+    characterName.textContent = character.name;
+    characterSpecifics.textContent = `${character.species} | ${character.status} | ${character.gender} | ${character.origin.name}`;
+    character.episode.forEach(episode => {
+        const episodeCharacterAppears = document.createElement('span');
+        episodeCharacterAppears.textContent = `Episode ${episode.slice(40)}`;
+        episodesOfCharacter.appendChild(episodeCharacterAppears);
+    });
 };
 fetchData()
     .then(episodes => createSeasons(episodes))

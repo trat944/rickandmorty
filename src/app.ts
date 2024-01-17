@@ -15,7 +15,6 @@ const fetchData = async (): Promise<Episode[]> => {
       episodes.push(...data2.results);
       data1 = data2;
     }
-
     return episodes;
   } catch (error) {
     throw Error
@@ -96,12 +95,11 @@ const fetchCharacters = async (episode: Episode): Promise<void> => {
   })
 }
 
-const printCharacters = (character: Characters): void => {
-  //aquí coger en un array que personajes son
-  //o no hace falta, simplemente un eventListener para cada uno que active el contenedor de ese personaje
+
+const printCharacters = (character: Characters) => {
   const {charactersContainer} = myVariables;
     const characterCard = 
-    `<div class="card characterCard" style="width: 18rem;">
+    `<div class="card characterCard" character-id="${character.id}" style="width: 18rem;">
     <img class="card-img-top" src="https://rickandmortyapi.com/api/character/avatar/${character.id}.jpeg" alt="Card image cap">
     <div class="card-body">
       <h5 class="card-title">${character.name}</h5>
@@ -109,7 +107,53 @@ const printCharacters = (character: Characters): void => {
     </div>
     </div>`;
     charactersContainer.innerHTML += characterCard;
+    displayCharacterInfo();
 }
+
+
+const displayCharacterInfo = (): void => {
+  const cards = document.querySelectorAll('.characterCard') as NodeListOf<Element>;
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      const characterId: number = Number(card.getAttribute(`character-id`));
+      fetchCharacter(characterId);
+    })
+  })
+}
+
+
+const fetchCharacter = async (characterId: number): Promise<void> => {
+ try{
+  const response = await fetch(`https://rickandmortyapi.com/api/character/${characterId}`);
+  const character: Characters = await response.json();
+  changeContainer();
+  printCharacterInfo(character);
+ } catch(error) {
+  console.log(error)
+ }
+}
+
+const changeContainer = (): void => {
+  const {episodeContainer, characterContainer} = myVariables;
+  episodeContainer.classList.add('hidden');
+  characterContainer.classList.remove('hidden');
+}
+
+const printCharacterInfo = (character: Characters):void => {
+  const {characterImg, characterName, characterSpecifics, episodesOfCharacter} = myVariables;
+
+  characterImg.src = character.image;
+  characterName.textContent = character.name;
+  characterSpecifics.textContent = `${character.species} | ${character.status} | ${character.gender} | ${character.origin.name}`
+
+  character.episode.forEach(episode => {
+    const episodeCharacterAppears = document.createElement('span');
+    episodeCharacterAppears.textContent = `Episode ${episode.slice(40)}`;
+    episodesOfCharacter.appendChild(episodeCharacterAppears);
+  })
+}
+
+
 
 
 fetchData()

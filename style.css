@@ -27,7 +27,7 @@ header {
   font-weight: 900;
 }
 
-.sidebar, .main-container {
+.sidebar, .episodes-container, .characters-container {
   margin-top: 3rem;
 }
 
@@ -140,6 +140,21 @@ header {
 
 .characterCard{
   cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+
+.characterInfo {
+  display: flex;
+  justify-content: space-around;
+}
+
+.characterEpisodes {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }
 
 ::-webkit-scrollbar {
