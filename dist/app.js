@@ -7,6 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+import { myVariables } from "./variables/dom_variables.js";
 const fetchData = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const episodes = [];
@@ -45,35 +46,66 @@ const createSeasons = (episodes) => {
         else if (episode.id >= 42 && episode.id < 52)
             seasons.season5.push(episode);
     });
-    console.log(seasons);
     return seasons;
 };
 const displaySeasons = (seasons) => {
-    const seasonButtons = document.querySelectorAll('[data-number="seasonBtn"]');
+    const { seasonButtons, containers } = myVariables;
     seasonButtons.forEach(button => {
         const seasonNumber = Number(button.classList.value);
         button.addEventListener('click', () => {
-            const containers = document.querySelectorAll('.episodeContainer');
             containers.forEach(container => {
-                container.textContent = "";
+                container.innerHTML = "";
             });
             printSeason(seasons, seasonNumber);
         });
     });
 };
 const printSeason = (seasons, seasonNumber) => {
+    const { charactersContainer } = myVariables;
     const { season1, season2, season3, season4, season5 } = seasons;
     const seasonArray = [season1, season2, season3, season4, season5];
     const selectedSeason = seasonArray[seasonNumber - 1];
     selectedSeason.forEach(episode => {
         const container = document.querySelector(`.container_${seasonNumber}`);
-        const episodePrinted = document.createElement('p');
+        const episodePrinted = document.createElement('button');
         episodePrinted.textContent = `Episode ${episode.episode.slice(4)}`;
+        episodePrinted.classList.add('episodeBtn');
+        episodePrinted.addEventListener('click', () => {
+            displayEpisodeInfo(episode);
+            charactersContainer.innerHTML = "";
+            fetchCharacters(episode);
+        });
         container.appendChild(episodePrinted);
     });
+};
+const displayEpisodeInfo = (episode) => {
+    const { episodeNameContainer, airDateandEpisodeContainer } = myVariables;
+    episodeNameContainer.textContent = episode.name;
+    airDateandEpisodeContainer.textContent = `${episode.air_date}  |  ${episode.episode}`;
+};
+const fetchCharacters = (episode) => __awaiter(void 0, void 0, void 0, function* () {
+    const charactersURL = episode.characters;
+    console.log(charactersURL);
+    charactersURL.forEach(character => {
+        fetch(character)
+            .then(response => response.json())
+            .then(data => {
+            printCharacters(data);
+        });
+    });
+});
+const printCharacters = (character) => {
+    const { charactersContainer } = myVariables;
+    const characterCard = `<div class="card characterCard" style="width: 18rem;">
+    <img class="card-img-top" src="https://rickandmortyapi.com/api/character/avatar/${character.id}.jpeg" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">${character.name}</h5>
+      <span> ${character.species}  |  ${character.status}</span>
+    </div>
+    </div>`;
+    charactersContainer.innerHTML += characterCard;
 };
 fetchData()
     .then(episodes => createSeasons(episodes))
     .then(seasons => displaySeasons(seasons));
-export {};
 //# sourceMappingURL=app.js.map

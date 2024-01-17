@@ -1,4 +1,5 @@
-import {MainInterface, Info, Episode, Seasons} from "./interfaces/index"
+import { myVariables } from "./variables/dom_variables.js";
+import {MainInterface, Info, Episode, Seasons, Characters} from "./interfaces/index"
 
 const fetchData = async (): Promise<Episode[]> => {
   try {
@@ -21,6 +22,7 @@ const fetchData = async (): Promise<Episode[]> => {
   }
 }
 
+
 const createSeasons = (episodes: Episode[]) : Seasons => {
   const seasons: Seasons = {
     season1: [],
@@ -36,25 +38,26 @@ const createSeasons = (episodes: Episode[]) : Seasons => {
     else if (episode.id >= 32 && episode.id < 42) seasons.season4.push(episode);
     else if (episode.id >= 42 && episode.id < 52) seasons.season5.push(episode);
   })
-  console.log(seasons)
   return seasons;
 }
 
+
 const displaySeasons = (seasons: Seasons) : void => {
-  const seasonButtons = document.querySelectorAll('[data-number="seasonBtn"]')as NodeListOf<Element>;
+  const {seasonButtons, containers} = myVariables;
   seasonButtons.forEach(button => {
     const seasonNumber: number = Number(button.classList.value);
     button.addEventListener('click', () => {
-      const containers = document.querySelectorAll('.episodeContainer') as NodeListOf<Element>;
       containers.forEach(container => {
-        container.textContent = "";
+        container.innerHTML = "";
       })
       printSeason(seasons, seasonNumber);
     })
   })
 }
 
+
 const printSeason = (seasons: Seasons, seasonNumber: number) : void => {
+  const {charactersContainer} = myVariables;
   const {season1, season2, season3, season4, season5} = seasons;
  
   const seasonArray: Episode[][] = [season1, season2, season3, season4, season5];
@@ -62,10 +65,50 @@ const printSeason = (seasons: Seasons, seasonNumber: number) : void => {
 
   selectedSeason.forEach(episode => {
     const container = document.querySelector(`.container_${seasonNumber}`) as HTMLDivElement;
-    const episodePrinted = document.createElement('p') as HTMLParagraphElement;
+    const episodePrinted = document.createElement('button') as HTMLButtonElement;
     episodePrinted.textContent = `Episode ${episode.episode.slice(4)}`;
+    episodePrinted.classList.add('episodeBtn');
+    episodePrinted.addEventListener('click', () => {
+      displayEpisodeInfo(episode);
+      charactersContainer.innerHTML = "";
+      fetchCharacters(episode)
+    })
     container.appendChild(episodePrinted);
   })
+}
+
+
+const displayEpisodeInfo = (episode: Episode): void => {
+  const {episodeNameContainer, airDateandEpisodeContainer} = myVariables;
+  episodeNameContainer.textContent = episode.name;
+  airDateandEpisodeContainer.textContent = `${episode.air_date}  |  ${episode.episode}`;
+}
+
+
+const fetchCharacters = async (episode: Episode): Promise<void> => {
+  const charactersURL: string[] = episode.characters;
+  charactersURL.forEach(character => {
+    fetch(character)
+      .then(response => response.json())
+      .then(data => {
+        printCharacters(data);
+      })
+  })
+}
+
+const printCharacters = (character: Characters): void => {
+  //aquí coger en un array que personajes son
+  //o no hace falta, simplemente un eventListener para cada uno que active el contenedor de ese personaje
+  const {charactersContainer} = myVariables;
+    const characterCard = 
+    `<div class="card characterCard" style="width: 18rem;">
+    <img class="card-img-top" src="https://rickandmortyapi.com/api/character/avatar/${character.id}.jpeg" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">${character.name}</h5>
+      <span> ${character.species}  |  ${character.status}</span>
+    </div>
+    </div>`;
+    charactersContainer.innerHTML += characterCard;
 }
 
 
