@@ -61,7 +61,7 @@ const displaySeasons = (seasons) => {
     });
 };
 const printSeason = (seasons, seasonNumber) => {
-    const { charactersContainer } = myVariables;
+    const { charactersContainer, episodeContainer, characterContainer } = myVariables;
     const { season1, season2, season3, season4, season5 } = seasons;
     const seasonArray = [season1, season2, season3, season4, season5];
     const selectedSeason = seasonArray[seasonNumber - 1];
@@ -71,6 +71,7 @@ const printSeason = (seasons, seasonNumber) => {
         episodePrinted.textContent = `Episode ${episode.episode.slice(4)}`;
         episodePrinted.classList.add('episodeBtn');
         episodePrinted.addEventListener('click', () => {
+            changeContainer(episodeContainer, characterContainer);
             displayEpisodeInfo(episode);
             charactersContainer.innerHTML = "";
             fetchCharacters(episode);
@@ -116,20 +117,16 @@ const displayCharacterInfo = () => {
 };
 const fetchCharacter = (characterId) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const { episodeContainer, characterContainer } = myVariables;
         const response = yield fetch(`https://rickandmortyapi.com/api/character/${characterId}`);
         const character = yield response.json();
-        changeContainer();
+        changeContainer(characterContainer, episodeContainer);
         printCharacterInfo(character);
     }
     catch (error) {
         console.log(error);
     }
 });
-const changeContainer = () => {
-    const { episodeContainer, characterContainer } = myVariables;
-    episodeContainer.classList.add('hidden');
-    characterContainer.classList.remove('hidden');
-};
 const printCharacterInfo = (character) => {
     const { characterImg, characterName, characterSpecifics, episodesOfCharacter } = myVariables;
     characterImg.src = character.image;
@@ -140,6 +137,10 @@ const printCharacterInfo = (character) => {
         episodeCharacterAppears.textContent = `Episode ${episode.slice(40)}`;
         episodesOfCharacter.appendChild(episodeCharacterAppears);
     });
+};
+const changeContainer = (showingContainer, hidingContainer) => {
+    hidingContainer.classList.add('hidden');
+    showingContainer.classList.remove('hidden');
 };
 fetchData()
     .then(episodes => createSeasons(episodes))

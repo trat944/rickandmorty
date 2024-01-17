@@ -56,7 +56,7 @@ const displaySeasons = (seasons: Seasons) : void => {
 
 
 const printSeason = (seasons: Seasons, seasonNumber: number) : void => {
-  const {charactersContainer} = myVariables;
+  const {charactersContainer, episodeContainer, characterContainer} = myVariables;
   const {season1, season2, season3, season4, season5} = seasons;
  
   const seasonArray: Episode[][] = [season1, season2, season3, season4, season5];
@@ -68,6 +68,7 @@ const printSeason = (seasons: Seasons, seasonNumber: number) : void => {
     episodePrinted.textContent = `Episode ${episode.episode.slice(4)}`;
     episodePrinted.classList.add('episodeBtn');
     episodePrinted.addEventListener('click', () => {
+      changeContainer(episodeContainer, characterContainer);
       displayEpisodeInfo(episode);
       charactersContainer.innerHTML = "";
       fetchCharacters(episode)
@@ -124,19 +125,14 @@ const displayCharacterInfo = (): void => {
 
 const fetchCharacter = async (characterId: number): Promise<void> => {
  try{
+  const {episodeContainer, characterContainer} = myVariables;
   const response = await fetch(`https://rickandmortyapi.com/api/character/${characterId}`);
   const character: Characters = await response.json();
-  changeContainer();
+  changeContainer(characterContainer, episodeContainer);
   printCharacterInfo(character);
  } catch(error) {
   console.log(error)
  }
-}
-
-const changeContainer = (): void => {
-  const {episodeContainer, characterContainer} = myVariables;
-  episodeContainer.classList.add('hidden');
-  characterContainer.classList.remove('hidden');
 }
 
 const printCharacterInfo = (character: Characters):void => {
@@ -154,6 +150,10 @@ const printCharacterInfo = (character: Characters):void => {
 }
 
 
+const changeContainer = (showingContainer: HTMLDivElement, hidingContainer: HTMLDivElement): void => {
+  hidingContainer.classList.add('hidden');
+  showingContainer.classList.remove('hidden');
+}
 
 
 fetchData()
