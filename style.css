@@ -182,7 +182,7 @@ header {
 .characterImg {
   border-radius: 10px; 
   overflow: hidden; 
-  box-shadow: 0 0 18px #00bcd4;;
+  box-shadow: 0 0 18px #00bcd4;
 }
 
 .characterName, .planetName {
@@ -203,6 +203,40 @@ header {
   font-size: 1.8rem;
   font-weight: 600;
   cursor: pointer;
+}
+
+.prev-button {
+  background-color:  #00bcd4;
+  font-size: 1.5rem;
+  font-weight: 600;
+  padding: 10px 20px;
+  height: fit-content;
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 1rem;
+}
+
+.footer {
+  background-color: #1e1e1e;
+  padding: 20px;
+  text-align: center;
+  width: 100%;
+}
+
+.footer a, .footer p {
+  color: #61dafb;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+.prev-button :hover {
+  background-color: #4fa3d1;
 }
 
 ::-webkit-scrollbar {
@@ -270,9 +304,11 @@ header {
     text-align: center;
   }
 
-  .originSpecifics{
+  .originSpecifics, .prev-button{
     display: flex;
     justify-content: center;
+    text-align: center;
+    margin: auto;
   }
 
   .characterImg {

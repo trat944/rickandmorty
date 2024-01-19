@@ -14,5 +14,7 @@ export const myVariables = {
   originDisplayer: document.querySelector('#originDisplayer') as HTMLDivElement,
   planetName: document.querySelector('#planetName') as HTMLHeadingElement,
   originSpecifics: document.querySelector('#originSpecifics') as HTMLSpanElement,
-  residentsContainer: document.querySelector('#residentsContainer') as HTMLDivElement
+  residentsContainer: document.querySelector('#residentsContainer') as HTMLDivElement,
+  previousCharacterBtn: document.querySelector('#previousCharacterBtn') as HTMLButtonElement,
+  previousOriginBtn: document.querySelector('#previousOriginBtn') as HTMLButtonElement
 };

@@ -14,6 +14,8 @@ export const myVariables = {
     originDisplayer: document.querySelector('#originDisplayer'),
     planetName: document.querySelector('#planetName'),
     originSpecifics: document.querySelector('#originSpecifics'),
-    residentsContainer: document.querySelector('#residentsContainer')
+    residentsContainer: document.querySelector('#residentsContainer'),
+    previousCharacterBtn: document.querySelector('#previousCharacterBtn'),
+    previousOriginBtn: document.querySelector('#previousOriginBtn')
 };
 //# sourceMappingURL=dom_variables.js.map

@@ -31,3 +31,5 @@ Or should I fetch episodes and then characters and locations from each episode w
 *  The way to get my characters of the episode. Solution: fetch them again(bad solution, but the one I got).
 
 * Link the functions whether it is async or not.
+
+* Origin residents fail somehow. Looped eventListeners, no way to undo it.

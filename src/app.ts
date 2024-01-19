@@ -155,7 +155,7 @@ const fetchCharacterContainer = async (characterId: number): Promise<void> => {
 }
 
 const printCharacterContainer = (character: Characters):HTMLSpanElement => {
-  const {characterImg, characterName, characterSpecifics, characterOrigin, characterContainer, originDisplayer} = myVariables;
+  const {characterImg, characterName, characterSpecifics, characterOrigin} = myVariables;
   characterImg.src = character.image;
   characterName.textContent = character.name;
   characterSpecifics.textContent = `${character.species} | ${character.status} | ${character.gender} | `
@@ -174,15 +174,15 @@ const displayEpisodesOfCharacter = (character: Characters): void => {
   })
 }
 
+
 const triggerEventEpisodesOfCharacter = async (episodeCharacterAppears: HTMLSpanElement, episode: string): Promise<void> => {
   try{
-    const {episodeContainer, characterContainer, charactersContainer} = myVariables;
+    const {episodeContainer, characterContainer} = myVariables;
     const response = await fetch(episode);
     const data: Episode = await response.json();
     episodeCharacterAppears.addEventListener('click', () => {
     changeContainer(episodeContainer, characterContainer);
     displayEpisodeContainer(data);
-    cleanDivContainer(charactersContainer);
     fetchCharactersEpisodeContainer(data);
   })
   } catch (error) {
@@ -223,7 +223,6 @@ const printOrigin = async (origin : Origin): Promise<void> => {
     fetch(resident)
       .then(response => response.json())
       .then((data) => {
-        cleanDivContainer(charactersContainer);
         changeContainer(originDisplayer, characterContainer)
         printCharacters(data, residentsContainer);
         triggerCharacterContainer();
@@ -246,10 +245,27 @@ const printCharacters = (character: Characters, container: HTMLDivElement) => {
 }
 
 
+const addBtnFunction = (btn: HTMLButtonElement, showingContainer: HTMLDivElement, hidingContainer: HTMLDivElement): void => {
+  btn.addEventListener('click', () => {
+    if (btn.innerText === "Back to episode") {
+      changeContainer(showingContainer, hidingContainer);
+    } else if (btn.innerText === "Back to character") {
+      changeContainer(showingContainer, hidingContainer);
+    }
+  }, { once: true });
+};
+
 const changeContainer = (showingContainer: HTMLDivElement, hidingContainer: HTMLDivElement): void => {
+  const { previousCharacterBtn, previousOriginBtn, episodeContainer, characterContainer } = myVariables;
   hidingContainer.classList.add('hidden');
   showingContainer.classList.remove('hidden');
-}
+  if (showingContainer.classList.contains("character_container")) {
+    addBtnFunction(previousCharacterBtn, episodeContainer, showingContainer);
+  }
+  if (showingContainer.classList.contains("origin_container")) {
+    addBtnFunction(previousOriginBtn, characterContainer, showingContainer);
+  }
+};
 
 const cleanDivContainer = (container: HTMLDivElement | Element): void => {
   container.innerHTML="";

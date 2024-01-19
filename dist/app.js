@@ -149,7 +149,7 @@ const fetchCharacterContainer = (characterId) => __awaiter(void 0, void 0, void 
     }
 });
 const printCharacterContainer = (character) => {
-    const { characterImg, characterName, characterSpecifics, characterOrigin, characterContainer, originDisplayer } = myVariables;
+    const { characterImg, characterName, characterSpecifics, characterOrigin } = myVariables;
     characterImg.src = character.image;
     characterName.textContent = character.name;
     characterSpecifics.textContent = `${character.species} | ${character.status} | ${character.gender} | `;
@@ -168,13 +168,12 @@ const displayEpisodesOfCharacter = (character) => {
 };
 const triggerEventEpisodesOfCharacter = (episodeCharacterAppears, episode) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { episodeContainer, characterContainer, charactersContainer } = myVariables;
+        const { episodeContainer, characterContainer } = myVariables;
         const response = yield fetch(episode);
         const data = yield response.json();
         episodeCharacterAppears.addEventListener('click', () => {
             changeContainer(episodeContainer, characterContainer);
             displayEpisodeContainer(data);
-            cleanDivContainer(charactersContainer);
             fetchCharactersEpisodeContainer(data);
         });
     }
@@ -212,7 +211,6 @@ const printOrigin = (origin) => __awaiter(void 0, void 0, void 0, function* () {
         fetch(resident)
             .then(response => response.json())
             .then((data) => {
-            cleanDivContainer(charactersContainer);
             changeContainer(originDisplayer, characterContainer);
             printCharacters(data, residentsContainer);
             triggerCharacterContainer();
@@ -230,9 +228,26 @@ const printCharacters = (character, container) => {
   </div>`;
     container.innerHTML += characterCard;
 };
+const addBtnFunction = (btn, showingContainer, hidingContainer) => {
+    btn.addEventListener('click', () => {
+        if (btn.innerText === "Back to episode") {
+            changeContainer(showingContainer, hidingContainer);
+        }
+        else if (btn.innerText === "Back to character") {
+            changeContainer(showingContainer, hidingContainer);
+        }
+    }, { once: true });
+};
 const changeContainer = (showingContainer, hidingContainer) => {
+    const { previousCharacterBtn, previousOriginBtn, episodeContainer, characterContainer } = myVariables;
     hidingContainer.classList.add('hidden');
     showingContainer.classList.remove('hidden');
+    if (showingContainer.classList.contains("character_container")) {
+        addBtnFunction(previousCharacterBtn, episodeContainer, showingContainer);
+    }
+    if (showingContainer.classList.contains("origin_container")) {
+        addBtnFunction(previousOriginBtn, characterContainer, showingContainer);
+    }
 };
 const cleanDivContainer = (container) => {
     container.innerHTML = "";
