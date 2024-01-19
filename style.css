@@ -29,8 +29,8 @@ header {
   height:250px;
 }
 
-.sidebar, .episodes-container, .characters-container, .character_container {
-  margin-top: 3rem;
+.sidebar, .episodes-container, .characters-container, .character_container, .origin_container {
+  margin: 3rem 0;
 }
 
 .sidebar {
@@ -132,7 +132,7 @@ header {
   font-weight: 700;
 }
 
-.charactersContainer {
+.charactersContainer, .residentsContainer {
   margin-top: 2rem;
   display: flex;
   justify-content: space-between;
@@ -146,6 +146,16 @@ header {
 
 .hidden {
   display: none;
+}
+
+.episodeOfCharacter{
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.episodeOfCharacter:hover {
+  transform: translateY(3px);
+  color: #555;
 }
 
 .characterInfo {
@@ -175,7 +185,7 @@ header {
   box-shadow: 0 0 18px #00bcd4;;
 }
 
-.characterName {
+.characterName, .planetName {
   font-family: 'Fredoka One', cursive; 
   font-size: 3.5rem;
   font-weight: 700; 
@@ -184,7 +194,7 @@ header {
   margin-bottom: 20px;
 }
 
-.characterSpecifics {
+.characterSpecifics, .originSpecifics {
   font-size: 1.5rem;
 
 }
@@ -215,7 +225,7 @@ header {
 }
 
 @media (max-width: 1685px) {
-  .charactersContainer {
+  .charactersContainer, .residentsContainer {
     justify-content: center;
   }
 }
@@ -255,9 +265,14 @@ header {
     margin: 0 0.5rem;
   }
 
-  .characterInfo {
+  .characterInfo, .planetName {
     flex-direction: column;
     text-align: center;
+  }
+
+  .originSpecifics{
+    display: flex;
+    justify-content: center;
   }
 
   .characterImg {

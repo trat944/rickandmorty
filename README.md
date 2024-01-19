@@ -29,3 +29,5 @@ Or should I fetch episodes and then characters and locations from each episode w
 **Big problems**
 
 *  The way to get my characters of the episode. Solution: fetch them again(bad solution, but the one I got).
+
+* Link the functions whether it is async or not.
