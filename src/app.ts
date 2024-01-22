@@ -130,9 +130,9 @@ const triggerCharacterContainer = (): void => {
     card.addEventListener('click', () => {
       const characterId: number = Number(card.getAttribute(`character-id`));
       fetchCharacterContainer(characterId);
-    })
-  })
-}
+    }, { once: true });
+  });
+};
 
 
 const fetchCharacterContainer = async (characterId: number): Promise<void> => {
@@ -177,10 +177,11 @@ const displayEpisodesOfCharacter = (character: Characters): void => {
 
 const triggerEventEpisodesOfCharacter = async (episodeCharacterAppears: HTMLSpanElement, episode: string): Promise<void> => {
   try{
-    const {episodeContainer, characterContainer} = myVariables;
+    const {episodeContainer, characterContainer, charactersContainer} = myVariables;
     const response = await fetch(episode);
     const data: Episode = await response.json();
     episodeCharacterAppears.addEventListener('click', () => {
+    cleanDivContainer(charactersContainer)
     changeContainer(episodeContainer, characterContainer);
     displayEpisodeContainer(data);
     fetchCharactersEpisodeContainer(data);
@@ -222,7 +223,7 @@ const printOrigin = async (origin : Origin): Promise<void> => {
   origin.residents.forEach(resident => {
     fetch(resident)
       .then(response => response.json())
-      .then((data) => {
+      .then((data: Characters) => {
         changeContainer(originDisplayer, characterContainer)
         printCharacters(data, residentsContainer);
         triggerCharacterContainer();
@@ -246,11 +247,13 @@ const printCharacters = (character: Characters, container: HTMLDivElement) => {
 
 
 const addBtnFunction = (btn: HTMLButtonElement, showingContainer: HTMLDivElement, hidingContainer: HTMLDivElement): void => {
+  const {residentsContainer} = myVariables;
   btn.addEventListener('click', () => {
     if (btn.innerText === "Back to episode") {
       changeContainer(showingContainer, hidingContainer);
     } else if (btn.innerText === "Back to character") {
       changeContainer(showingContainer, hidingContainer);
+      cleanDivContainer(residentsContainer);
     }
   }, { once: true });
 };
