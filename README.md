@@ -1,35 +1,32 @@
-# Organization
+<div align="left">
+  <img src="/img/readme-cover.png" alt="Rick and Morty" width="700">
+</div>
 
-**First questions to ask myself**
+# Rick and Morty API Explorer 🚀
 
-* How to start -> Should I fetch all three locations, characters and episodes and then work on them?
-Or should I fetch episodes and then characters and locations from each episode when clicking on them?
+Explore the universe of Rick and Morty with this interactive web application! Discover information about episodes, characters, and planets featured in the beloved TV series.
 
-* Should I start with HTML, fetching the APi? 
+## 🎉 Features
 
-* Default container episode 1? 
+- **Episode Selection:** Choose any episode from the list to view information about the characters and planets featured in that episode.
+- **Character Information:** Click on any character to view detailed information, including their origin planet.
+- **Planet Details:** Explore planets by clicking on their names to view information about the planet and its residents.
+- **Responsiveness:** The application is fully responsive and optimized for various screen sizes, ensuring a seamless user experience across devices.
 
-* How to implement the fetch and the promise.All in typescript. 
+## 🛠️ Implementation
 
-* How to make the types of the objects fetched? Before? After?
+- **Endpoints Handling:** Utilizes the Rick and Morty API endpoints to fetch episode, character, and planet data dynamically.
+- **Error Handling:** Implements robust error handling to provide users with meaningful feedback in case of network errors or API failures.
+- **TypeScript Integration:** Employs TypeScript to provide type safety and enhance code readability. Interfaces are defined to represent different types of data fetched from the API.
 
+## ⚡ Challenges
 
-**First things to do**
+- **Fetching Data Dynamically:** Deciding whether to fetch all data upfront or fetch additional data based on user interactions posed challenges in optimizing data loading and application performance.
+- **Managing Asynchronous Operations:** Coordinating asynchronous operations, especially when fetching data from multiple endpoints, required careful handling to ensure data consistency and prevent race conditions.
+- **Event Listener Management:** Implementing event listeners for user interactions, such as clicking on characters or planets, required careful management to avoid memory leaks and ensure smooth navigation within the application.
 
-* Get proper knowledge about TS.
+## 📝 Feedback and Contributions
 
-* Make the interfaces in separate folder.
+Feedback and contributions to this project are welcome! If you encounter any issues, have suggestions for improvements, or would like to contribute new features, please submit a pull request on GitHub.
 
-* Fetch all the episodes and divide into seasons. That will be the starting point of all. 
-
-* Make the seasons button work and display in the main container the episode info.
-
-* Then, fetch the characters of each episode the user clicks. 
-
-**Big problems**
-
-*  The way to get my characters of the episode. Solution: fetch them again(bad solution, but the one I got).
-
-* Link the functions whether it is async or not.
-
-* Origin residents fail somehow. Looped eventListeners, no way to undo it.
+Happy exploring the multiverse of Rick and Morty! 🌟
